@@ -1,79 +1,52 @@
+
 import { useState } from 'react';
 
-export default function SubscribeForm() {
-  const [wallet, setWallet] = useState('');
-  const [twitterUsername, setTwitterUsername] = useState('');
-  const [remindInDays, setRemindInDays] = useState('');
-  const [token, setToken] = useState('');
-  const [message, setMessage] = useState('');
+export default function ReminderForm() {
+  const [tokenName, setTokenName] = useState('');
+  const [xUsername, setXUsername] = useState('');
+  const [walletAddress, setWalletAddress] = useState('');
+  const [remindDays, setRemindDays] = useState('');
+  const [agreed, setAgreed] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    const payload = {
-      wallet,
-      twitterUsername,
-      remindInDays: parseInt(remindInDays),
-      token
-    };
+    if (!tokenName || !xUsername || !walletAddress || !remindDays || !agreed) {
+      alert('Please fill in all fields and agree to terms.');
+      return;
+    }
 
     try {
-      const response = await fetch('https://x-reminder-bot.vercel.app/api/subscribe', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
+      const res = await fetch("https://x-reminder-bot.vercel.app/api/remind", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          token: tokenName,
+          twitterUsername: xUsername,
+          wallet: walletAddress,
+          remindInDays: remindDays
+        }),
       });
-
-      const result = await response.json();
-      if (response.ok) {
-        setMessage('Reminder registered and tweet sent!');
-      } else {
-        setMessage(result.error || 'Something went wrong');
-      }
+      const data = await res.json();
+      alert(data.message || "Reminder submitted successfully!");
     } catch (err) {
       console.error(err);
-      setMessage('Failed to reach the server.');
+      alert("Submission failed. Please try again later.");
     }
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4 p-4 max-w-md mx-auto">
-      <input
-        type="text"
-        placeholder="Wallet Address"
-        value={wallet}
-        onChange={(e) => setWallet(e.target.value)}
-        required
-        className="w-full p-2 border rounded"
-      />
-      <input
-        type="text"
-        placeholder="Twitter Username (without @)"
-        value={twitterUsername}
-        onChange={(e) => setTwitterUsername(e.target.value)}
-        required
-        className="w-full p-2 border rounded"
-      />
-      <input
-        type="number"
-        placeholder="Remind in (days)"
-        value={remindInDays}
-        onChange={(e) => setRemindInDays(e.target.value)}
-        required
-        className="w-full p-2 border rounded"
-      />
-      <input
-        type="text"
-        placeholder="Token (e.g. $JARVIS)"
-        value={token}
-        onChange={(e) => setToken(e.target.value)}
-        required
-        className="w-full p-2 border rounded"
-      />
-      <button type="submit" className="bg-blue-600 text-white p-2 rounded w-full">
-        Subscribe
-      </button>
-      {message && <p className="text-center mt-4">{message}</p>}
+    <form onSubmit={handleSubmit} className="space-y-4 bg-gray-800 p-4 rounded">
+      <input className="w-full p-2 rounded text-black" placeholder="Token Name" value={tokenName} onChange={(e) => setTokenName(e.target.value)} />
+      <input className="w-full p-2 rounded text-black" placeholder="X Username" value={xUsername} onChange={(e) => setXUsername(e.target.value)} />
+      <input className="w-full p-2 rounded text-black" placeholder="Wallet Address" value={walletAddress} onChange={(e) => setWalletAddress(e.target.value)} />
+      <input className="w-full p-2 rounded text-black" placeholder="Reminder Days" value={remindDays} onChange={(e) => setRemindDays(e.target.value)} />
+      <div>
+        <label>
+          <input type="checkbox" checked={agreed} onChange={(e) => setAgreed(e.target.checked)} className="mr-2" />
+          I agree to receive reminders
+        </label>
+      </div>
+      <button type="submit" className="bg-blue-600 px-4 py-2 rounded">Submit</button>
     </form>
   );
 }

@@ -4,6 +4,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import greenLockData from './data/greenLockData.json';
 import stakedDataRaw from './data/stakedData.json';
 import { FaTwitter } from 'react-icons/fa';
+import ReminderForm from './components/ReminderForm';
 
 export default function Dashboard() {
   const [wallet, setWallet] = useState('');
