@@ -16,7 +16,7 @@ export default function ReminderForm() {
     }
 
     try {
-      const res = await fetch("https://x-reminder-bot.vercel.app/api/remind", {
+      const res = await fetch("https://x-reminder-bot.vercel.app/api/subscribe", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
