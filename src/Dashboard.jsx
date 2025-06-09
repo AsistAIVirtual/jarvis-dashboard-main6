@@ -1,14 +1,9 @@
-import SubscribeFormRemote from './SubscribeFormRemote';
 import { useState, useEffect } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import greenLockData from './data/greenLockData.json';
 import stakedDataRaw from './data/stakedData.json';
 import { FaTwitter } from 'react-icons/fa';
-import SubscribeForm from './components/SubscribeForm';
-{showSection === 'subscribe' && <SubscribeForm />}
-
-
 
 export default function Dashboard() {
   const [wallet, setWallet] = useState('');
@@ -217,7 +212,7 @@ export default function Dashboard() {
               I agree to be notified before unlock date
             </label>
           </div>
-          <SubscribeFormRemote />
+          <button className="bg-blue-600 px-4 py-2 rounded">Subscribe</button>
         </div>
       )}
 
