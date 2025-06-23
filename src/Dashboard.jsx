@@ -2,16 +2,12 @@ import React, { useState } from 'react';
 import DailyVolume from './components/DailyVolume';
 import GreenLockPeriod from './components/GreenLockPeriod';
 import ReminderForm from './components/ReminderForm';
-import AgentMarket from './components/AgentMarket';
-import TotalStakedAgents from './components/TotalStakedAgents';
 import GenesisTokens from './components/GenesisTokens';
 
 const tabs = [
   { name: 'Daily Volume', component: <DailyVolume /> },
   { name: 'Green Lock Period', component: <GreenLockPeriod /> },
   { name: 'Subscribe Unlock Period', component: <ReminderForm /> },
-  { name: 'Agent Market', component: <AgentMarket /> },
-  { name: 'Total Staked Agents', component: <TotalStakedAgents /> },
   { name: 'Genesis Tokens', component: <GenesisTokens /> },
 ];
 
