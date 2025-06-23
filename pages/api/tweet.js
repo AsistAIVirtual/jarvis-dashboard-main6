@@ -1,32 +1,24 @@
-import { TwitterApi } from 'twitter-api-v2';
+
+import Twit from 'twit';
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method not allowed' });
+    return res.status(405).json({ message: 'Method Not Allowed' });
   }
 
-  const { username, tokenName } = req.body;
-  if (!username || !username.startsWith('@')) {
-    return res.status(400).json({ error: 'Please enter a valid @username' });
-  }
+  const { message } = req.body;
+
+  const T = new Twit({
+    consumer_key: process.env.TWITTER_CONSUMER_KEY,
+    consumer_secret: process.env.TWITTER_CONSUMER_SECRET,
+    access_token: process.env.TWITTER_ACCESS_TOKEN,
+    access_token_secret: process.env.TWITTER_ACCESS_SECRET,
+  });
 
   try {
-    const client = new TwitterApi({
-      appKey: process.env.API_KEY,
-      appSecret: process.env.API_SECRET,
-      accessToken: process.env.ACCESS_TOKEN,
-      accessSecret: process.env.ACCESS_SECRET,
-    });
-
-    const tweetMessage = tokenName
-      ? `Hey ${username}, today is the unlock day for ${tokenName}! 🔓`
-      : `Hey ${username}, here's your reminder! 🔔`;
-
-    await client.v2.tweet(tweetMessage);
-
-    return res.status(200).json({ success: true });
+    const tweet = await T.post('statuses/update', { status: message });
+    return res.status(200).json({ message: 'Tweet sent', tweet });
   } catch (error) {
-    console.error('Tweet failed:', error);
-    return res.status(500).json({ error: 'Tweet could not be sent' });
+    return res.status(500).json({ message: 'Tweet failed', error: error.message });
   }
 }
