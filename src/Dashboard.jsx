@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import DailyVolume from './DailyVolume';
-import GreenLock from './GreenLock';
-import ReminderForm from './ReminderForm';
-import AgentMarket from './AgentMarket';
-import TotalStakedAgents from './TotalStakedAgents';
-import GenesisTokens from './GenesisTokens';
+import DailyVolume from './components/DailyVolume';
+import GreenLock from './components/GreenLock';
+import ReminderForm from './components/ReminderForm';
+import AgentMarket from './components/AgentMarket';
+import TotalStakedAgents from './components/TotalStakedAgents';
+import GenesisTokens from './components/GenesisTokens';
 
 const tabs = [
   { name: 'Daily Volume', component: <DailyVolume /> },
