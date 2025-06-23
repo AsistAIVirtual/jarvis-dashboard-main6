@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import DailyVolume from './components/DailyVolume';
-import GreenLock from './components/GreenLock';
+import GreenLock from './components/GreenLockPeriod';
 import ReminderForm from './components/ReminderForm';
 import AgentMarket from './components/AgentMarket';
 import TotalStakedAgents from './components/TotalStakedAgents';
